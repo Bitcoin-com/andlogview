@@ -16,6 +16,7 @@
 package name.mlopatkin.andlogview.liblogcat;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -40,9 +41,9 @@ public class LogRecordFormatter {
             throw new IllegalArgumentException("Not sufficient data: " + record);
         }
         String formatString = "%s %5d %5d %s %-8s: %s";
-        Date instant = record.getTime();
-        assert instant != null;
-        return String.format(formatString, TimeFormatUtils.convertTimeToString(instant), record.getPid(),
+        LocalDateTime date = record.getTime();
+        assert date != null;
+        return String.format(formatString, TimeFormatUtils.convertTimeToString(date), record.getPid(),
                 record.getTid(), record.getPriority().getLetter(), record.getTag(), record.getMessage());
     }
 
@@ -51,9 +52,9 @@ public class LogRecordFormatter {
             throw new IllegalArgumentException("Not sufficient data: " + record);
         }
         String formatString = "%s %s/%-8s(%5d): %s";
-        Date instant = record.getTime();
-        assert instant != null;
-        return String.format(formatString, TimeFormatUtils.convertTimeToString(instant),
+        LocalDateTime date = record.getTime();
+        assert date != null;
+        return String.format(formatString, TimeFormatUtils.convertTimeToString(date),
                 record.getPriority().getLetter(), record.getTag(), record.getPid(), record.getMessage());
     }
 

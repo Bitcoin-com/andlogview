@@ -25,6 +25,7 @@ import name.mlopatkin.andlogview.widgets.TableColumnBuilder;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -44,15 +45,15 @@ public enum Column {
     },
     TIME(Field.TIME, "time", "Time") {
         @Override
-        public @Nullable Date getValue(int rowIndex, LogRecord record) {
+        public @Nullable LocalDateTime getValue(int rowIndex, LogRecord record) {
             return record.getTime();
         }
 
         @Override
         public String getStrValue(int rowIndex, LogRecord record) {
-            Date instant = record.getTime();
-            assert instant != null;
-            return TimeFormatUtils.convertTimeToString(instant);
+            LocalDateTime date = record.getTime();
+            assert date != null;
+            return TimeFormatUtils.convertTimeToString(date);
         }
     },
     PID(Field.PID, "pid", "pid") {

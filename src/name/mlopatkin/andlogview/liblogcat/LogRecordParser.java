@@ -22,6 +22,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.text.ParseException;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -63,15 +65,15 @@ public class LogRecordParser {
                 return null;
             }
             try {
-                Date instant = TimeFormatUtils.getTimeFromString(m.group(1));
+                LocalDateTime date = TimeFormatUtils.getTimeFromString(m.group(1));
                 int pid = Integer.parseInt(m.group(2));
                 int tid = Integer.parseInt(m.group(3));
                 Priority priority = getPriorityFromChar(m.group(4));
                 String tag = m.group(5);
                 String message = m.group(6);
-                return new LogRecord(instant, pid, tid, pidToProcess.get(pid), priority, tag, message, buffer);
+                return new LogRecord(date, pid, tid, pidToProcess.get(pid), priority, tag, message, buffer);
             } catch (ParseException e) {
-                return new LogRecord(new Date(), -1, -1, "", Priority.ERROR, "Parse Error", m.group());
+                return new LogRecord(LocalDateTime.now(ZoneId.systemDefault()), -1, -1, "", Priority.ERROR, "Parse Error", m.group());
             }
         }
     }
@@ -161,15 +163,15 @@ public class LogRecordParser {
                 return null;
             }
             try {
-                Date instant = TimeFormatUtils.getTimeFromString(m.group(1));
+                LocalDateTime date = TimeFormatUtils.getTimeFromString(m.group(1));
                 Priority priority = getPriorityFromChar(m.group(2));
                 String tag = m.group(3);
                 int pid = Integer.parseInt(m.group(4));
                 String message = m.group(5);
                 return new LogRecord(
-                        instant, pid, LogRecord.NO_ID, pidToProcess.get(pid), priority, tag, message, buffer);
+                        date, pid, LogRecord.NO_ID, pidToProcess.get(pid), priority, tag, message, buffer);
             } catch (ParseException e) {
-                return new LogRecord(new Date(), -1, -1, "", Priority.ERROR, "Parse Error", m.group());
+                return new LogRecord(LocalDateTime.now(ZoneId.systemDefault()), -1, -1, "", Priority.ERROR, "Parse Error", m.group());
             }
         }
     }
@@ -191,7 +193,7 @@ public class LogRecordParser {
                 return null;
             }
             try {
-                Date instant = TimeFormatUtils.getTimeFromString(m.group(1));
+                LocalDateTime date = TimeFormatUtils.getTimeFromString(m.group(1));
                 int pid = Integer.parseInt(m.group(2));
                 int tid = Integer.parseInt(m.group(3));
                 String rawAppName = m.group(4);
@@ -199,9 +201,9 @@ public class LogRecordParser {
                 Priority priority = getPriorityFromChar(m.group(5));
                 String tag = m.group(6);
                 String message = m.group(7);
-                return new LogRecord(instant, pid, tid, appName, priority, tag, message);
+                return new LogRecord(date, pid, tid, appName, priority, tag, message);
             } catch (ParseException e) {
-                return new LogRecord(new Date(), -1, -1, "", Priority.ERROR, "Parse Error", m.group());
+                return new LogRecord(LocalDateTime.now(ZoneId.systemDefault()), -1, -1, "", Priority.ERROR, "Parse Error", m.group());
             }
         }
     }

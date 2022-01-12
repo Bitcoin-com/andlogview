@@ -22,6 +22,7 @@ import com.google.common.collect.ComparisonChain;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -34,6 +35,8 @@ public class LogRecord implements Comparable<LogRecord> {
     private static final Comparator<@Nullable Buffer> NULL_SAFE_BUFFER_COMPARATOR =
             Comparator.nullsFirst(Comparator.naturalOrder());
     private static final Comparator<@Nullable Date> NULL_SAFE_DATE_COMPARATOR =
+            Comparator.nullsFirst(Comparator.naturalOrder());
+    private static final Comparator<@Nullable LocalDateTime> NULL_SAFE_LOCALDATETIME_COMPARATOR =
             Comparator.nullsFirst(Comparator.naturalOrder());
     private static final Comparator<@Nullable Instant> NULL_SAFE_INSTANT_COMPARATOR =
             Comparator.nullsFirst(Comparator.naturalOrder());
@@ -73,7 +76,7 @@ public class LogRecord implements Comparable<LogRecord> {
 
     public static final int NO_ID = -1;
 
-    private final @Nullable Date instant;
+    private final @Nullable LocalDateTime date;
     private final int pid;
     private final int tid;
     private final Priority priority;
@@ -82,14 +85,14 @@ public class LogRecord implements Comparable<LogRecord> {
     private final @Nullable Buffer buffer;
     private final String appName;
 
-    public LogRecord(@Nullable Date instant, int pid, int tid, @Nullable String appName, Priority priority, String tag,
+    public LogRecord(@Nullable LocalDateTime date, int pid, int tid, @Nullable String appName, Priority priority, String tag,
             String message) {
-        this(instant, pid, tid, appName, priority, tag, message, null);
+        this(date, pid, tid, appName, priority, tag, message, null);
     }
 
-    public LogRecord(@Nullable Date instant, int pid, int tid, @Nullable String appName, Priority priority, String tag,
+    public LogRecord(@Nullable LocalDateTime date, int pid, int tid, @Nullable String appName, Priority priority, String tag,
             String message, @Nullable Buffer buffer) {
-        this.instant = instant;
+        this.date = date;
         this.pid = pid;
         this.tid = tid;
         this.appName = CharMatcher.whitespace().trimFrom(Strings.nullToEmpty(appName));
@@ -99,8 +102,8 @@ public class LogRecord implements Comparable<LogRecord> {
         this.buffer = buffer;
     }
 
-    public @Nullable Date getTime() {
-        return instant;
+    public @Nullable LocalDateTime getTime() {
+        return date;
     }
 
     public int getPid() {
@@ -134,8 +137,8 @@ public class LogRecord implements Comparable<LogRecord> {
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder();
-        if (instant != null) {
-            b.append(TimeFormatUtils.convertTimeToString(instant)).append('\t');
+        if (date != null) {
+            b.append(TimeFormatUtils.convertTimeToString(date)).append('\t');
         }
         if (pid != NO_ID) {
             b.append(pid).append('\t');
@@ -161,7 +164,7 @@ public class LogRecord implements Comparable<LogRecord> {
     @Override
     public int compareTo(LogRecord o) {
         return ComparisonChain.start()
-                .compare(getTime(), o.getTime(), NULL_SAFE_DATE_COMPARATOR)
+                .compare(getTime(), o.getTime(), NULL_SAFE_LOCALDATETIME_COMPARATOR)
                 .compare(getBuffer(), o.getBuffer(), NULL_SAFE_BUFFER_COMPARATOR)
                 .result();
     }

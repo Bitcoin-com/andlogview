@@ -1,0 +1,1 @@
+build/distributions/andlogview-0.21BJD-SNAPSHOT/bin/andlogview

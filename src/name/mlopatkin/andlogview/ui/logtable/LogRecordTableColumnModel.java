@@ -32,10 +32,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
+import javax.swing.table.*;
 
 /**
  * The column model for the main log table. It allows to temporarily hide columns.
@@ -52,6 +49,7 @@ public final class LogRecordTableColumnModel extends DefaultTableColumnModel imp
     private final TableCellRenderer timeCellRenderer = new LogRecordTimeCellRenderer();
     private final TableCellRenderer priorityCellRenderer = new LogRecordPriorityCellRenderer();
     private final TableCellRenderer textCellRenderer = new HighlightCellRenderer();
+    private final TableCellRenderer bjdCellRenderer = new BjdCellRenderer();
     private final TableCellRenderer pidCellRender;
 
     private final ColumnOrder columnOrder;
@@ -91,7 +89,7 @@ public final class LogRecordTableColumnModel extends DefaultTableColumnModel imp
         this.columnTogglesModel = columnTogglesModel;
 
         addTextColumn(Column.INDEX).setWidth(30).setMaxWidth(50);
-        addTimeColumn(Column.TIME).setWidth(150).setMaxWidth(150);
+        addTimeColumn(Column.TIME).setWidth(200).setMaxWidth(200);
         addPidColumn(Column.PID).setWidth(40).setMaxWidth(50);
         addTextColumn(Column.TID).setWidth(40).setMaxWidth(50);
         addPriorityColumn(Column.PRIORITY).setWidth(30).setMaxWidth(50);

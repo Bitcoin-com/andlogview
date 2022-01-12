@@ -20,9 +20,7 @@ import name.mlopatkin.andlogview.search.TextHighlighter;
 import name.mlopatkin.andlogview.widgets.StyledLabel;
 import name.mlopatkin.andlogview.widgets.UiHelper;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Rectangle;
+import java.awt.*;
 
 import javax.swing.JComponent;
 import javax.swing.JTable;
@@ -53,6 +51,7 @@ public class HighlightCellRenderer extends StyledLabel implements TableCellRende
         highlighted = document.addStyle(null, null);
         StyleConstants.setBackground(highlighted, Color.YELLOW);
         StyleConstants.setForeground(highlighted, Color.RED);
+        setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
     }
 
     @Override

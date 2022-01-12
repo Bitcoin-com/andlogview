@@ -35,6 +35,7 @@ import dagger.Provides;
 import javax.inject.Named;
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import java.awt.*;
 
 @Module(includes = {FilterModule.class, MainFramePrefsModule.class, StatusPanelModule.class})
 public class MainFrameModule {
@@ -80,6 +81,8 @@ public class MainFrameModule {
                 }, dialogFactory).getLogTable();
         // TODO(mlopatkin) Replace this cast with injection
         ((DecoratingRendererTable) logTable).addDecorator(bookmarkHighlighter);
+        //Font f = new Font(Font.MONOSPACED, Font.ITALIC, 20);
+        //logTable.setFont(f);
         return logTable;
     }
 }

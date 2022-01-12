@@ -72,7 +72,7 @@ checkstyle {
 }
 
 applicationName = 'andlogview'
-version = '0.21' + (BuildEnvironment.isSnapshotBuild() ? '-SNAPSHOT' : '')
+version = '0.21BJD' + (BuildEnvironment.isSnapshotBuild() ? '-SNAPSHOT' : '')
 
 mainClassName = 'name.mlopatkin.andlogview.Main'
 

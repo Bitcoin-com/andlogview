@@ -19,6 +19,7 @@ import name.mlopatkin.andlogview.liblogcat.TimeFormatUtils;
 import name.mlopatkin.andlogview.widgets.UiHelper;
 
 import java.awt.Component;
+import java.time.Instant;
 import java.util.Date;
 
 import javax.swing.JTable;
@@ -32,7 +33,7 @@ class LogRecordTimeCellRenderer extends DefaultTableCellRenderer {
             return;
         }
         assert value instanceof Date;
-        String strValue = TimeFormatUtils.convertTimeToString((Date) value);
+        String strValue = TimeFormatUtils.convertTimeToString((Instant) value);
         super.setValue(strValue);
     }
 

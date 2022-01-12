@@ -18,7 +18,11 @@ package name.mlopatkin.andlogview.liblogcat;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Thread-safe routines that perform reading and writing of the timestamps in
@@ -27,14 +31,59 @@ import java.util.Date;
 public class TimeFormatUtils {
     private TimeFormatUtils() {}
 
-    private static final ThreadLocal<DateFormat> LOGCAT_DATE_FORMAT =
+    private static final ThreadLocal<DateFormat> SYSTEM_LOGCAT_DATE_FORMAT =
             ThreadLocal.withInitial(() -> new SimpleDateFormat("MM-dd HH:mm:ss.SSS"));
 
-    public static Date getTimeFromString(String s) throws ParseException {
-        return LOGCAT_DATE_FORMAT.get().parse(s);
+    private static final ThreadLocal<DateTimeFormatter> SYSTEM_LOGCAT_DATE_FORMATTER =
+            ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("MM-dd HH:mm:ss.SSS", Locale.US));
+
+    /*
+    private static final ThreadLocal<DateFormat> MY_LOGCAT_DATE_FORMAT =
+            ThreadLocal.withInitial(() -> new SimpleDateFormat("EEE d MMM, HH:mm:ss.SSS"));
+    */
+
+    private static final ThreadLocal<DateTimeFormatter> MY_LOGCAT_DATE_FORMATTER =
+            ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("EEE d MMM, HH:mm:ss.SSS", Locale.ENGLISH));
+
+    public static Instant getTimeFromString(String s) throws ParseException {
+        DateFormat df = SYSTEM_LOGCAT_DATE_FORMAT.get();
+        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+        //df.setTimeZone(TimeZone.getDefault());
+
+        Date date = df.parse(s);
+
+        LocalDateTime ldt = LocalDateTime.parse(s);
+        Instant instant = ldt.toInstant(ZoneId.of("Pacific/Auckland").getRules().getOffset(ldt));
+        //LocalDateTime.of
+
+        //Instant instant = date.toInstant();
+
+        //System.out.println();
+
+        /*
+        date.setTimeZone
+        Instant instant = LocalDateTime.parse(
+                s,
+                SYSTEM_LOGCAT_DATE_FORMATTER.get()
+        )
+        .atZone(ZoneId.of("Pacific/Auckland"))
+        .toInstant();
+        */
+        return instant;
     }
 
-    public static String convertTimeToString(Date date) {
-        return LOGCAT_DATE_FORMAT.get().format(date);
+    public static String convertTimeToString(Instant instant) {
+        ZonedDateTime zdt = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
+
+        LocalDateTime ldt = LocalDateTime.from(zdt);
+        return MY_LOGCAT_DATE_FORMATTER.get().format(ldt);
     }
+    /*
+    public static String convertTimeToString(Date date) {
+        Instant instant = date.toInstant();
+        ZoneId zone = ZoneId.of("NST");
+        ZonedDateTime zDate = ZonedDateTime.ofInstant(instant, zone);
+        return MY_LOGCAT_DATE_FORMATTER.get().format(zDate);
+    }
+    */
 }

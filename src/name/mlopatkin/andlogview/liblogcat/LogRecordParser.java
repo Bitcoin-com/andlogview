@@ -63,7 +63,7 @@ public class LogRecordParser {
                 return null;
             }
             try {
-                Instant instant = TimeFormatUtils.getTimeFromString(m.group(1));
+                Date instant = TimeFormatUtils.getTimeFromString(m.group(1));
                 int pid = Integer.parseInt(m.group(2));
                 int tid = Integer.parseInt(m.group(3));
                 Priority priority = getPriorityFromChar(m.group(4));
@@ -71,7 +71,7 @@ public class LogRecordParser {
                 String message = m.group(6);
                 return new LogRecord(instant, pid, tid, pidToProcess.get(pid), priority, tag, message, buffer);
             } catch (ParseException e) {
-                return new LogRecord(Instant.now(), -1, -1, "", Priority.ERROR, "Parse Error", m.group());
+                return new LogRecord(new Date(), -1, -1, "", Priority.ERROR, "Parse Error", m.group());
             }
         }
     }
@@ -161,7 +161,7 @@ public class LogRecordParser {
                 return null;
             }
             try {
-                Instant instant = TimeFormatUtils.getTimeFromString(m.group(1));
+                Date instant = TimeFormatUtils.getTimeFromString(m.group(1));
                 Priority priority = getPriorityFromChar(m.group(2));
                 String tag = m.group(3);
                 int pid = Integer.parseInt(m.group(4));
@@ -169,7 +169,7 @@ public class LogRecordParser {
                 return new LogRecord(
                         instant, pid, LogRecord.NO_ID, pidToProcess.get(pid), priority, tag, message, buffer);
             } catch (ParseException e) {
-                return new LogRecord(Instant.now(), -1, -1, "", Priority.ERROR, "Parse Error", m.group());
+                return new LogRecord(new Date(), -1, -1, "", Priority.ERROR, "Parse Error", m.group());
             }
         }
     }
@@ -191,7 +191,7 @@ public class LogRecordParser {
                 return null;
             }
             try {
-                Instant instant = TimeFormatUtils.getTimeFromString(m.group(1));
+                Date instant = TimeFormatUtils.getTimeFromString(m.group(1));
                 int pid = Integer.parseInt(m.group(2));
                 int tid = Integer.parseInt(m.group(3));
                 String rawAppName = m.group(4);
@@ -201,7 +201,7 @@ public class LogRecordParser {
                 String message = m.group(7);
                 return new LogRecord(instant, pid, tid, appName, priority, tag, message);
             } catch (ParseException e) {
-                return new LogRecord(Instant.now(), -1, -1, "", Priority.ERROR, "Parse Error", m.group());
+                return new LogRecord(new Date(), -1, -1, "", Priority.ERROR, "Parse Error", m.group());
             }
         }
     }

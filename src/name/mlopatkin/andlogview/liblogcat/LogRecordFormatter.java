@@ -40,7 +40,7 @@ public class LogRecordFormatter {
             throw new IllegalArgumentException("Not sufficient data: " + record);
         }
         String formatString = "%s %5d %5d %s %-8s: %s";
-        Instant instant = record.getTime();
+        Date instant = record.getTime();
         assert instant != null;
         return String.format(formatString, TimeFormatUtils.convertTimeToString(instant), record.getPid(),
                 record.getTid(), record.getPriority().getLetter(), record.getTag(), record.getMessage());
@@ -51,7 +51,7 @@ public class LogRecordFormatter {
             throw new IllegalArgumentException("Not sufficient data: " + record);
         }
         String formatString = "%s %s/%-8s(%5d): %s";
-        Instant instant = record.getTime();
+        Date instant = record.getTime();
         assert instant != null;
         return String.format(formatString, TimeFormatUtils.convertTimeToString(instant),
                 record.getPriority().getLetter(), record.getTag(), record.getPid(), record.getMessage());

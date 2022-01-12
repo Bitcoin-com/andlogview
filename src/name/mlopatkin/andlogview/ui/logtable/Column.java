@@ -44,13 +44,13 @@ public enum Column {
     },
     TIME(Field.TIME, "time", "Time") {
         @Override
-        public @Nullable Instant getValue(int rowIndex, LogRecord record) {
+        public @Nullable Date getValue(int rowIndex, LogRecord record) {
             return record.getTime();
         }
 
         @Override
         public String getStrValue(int rowIndex, LogRecord record) {
-            Instant instant = record.getTime();
+            Date instant = record.getTime();
             assert instant != null;
             return TimeFormatUtils.convertTimeToString(instant);
         }

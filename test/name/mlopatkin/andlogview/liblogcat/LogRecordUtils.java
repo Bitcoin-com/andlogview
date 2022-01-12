@@ -30,6 +30,7 @@ import java.util.Date;
 public final class LogRecordUtils {
     private LogRecordUtils() {}
 
+
     public static LogRecord forPid(int pid) {
         return new LogRecord(new Date(), pid, NO_ID, "", Priority.INFO, "", "");
     }
@@ -57,6 +58,7 @@ public final class LogRecordUtils {
     public static LogRecord forPidAndAppName(int pid, String appName) {
         return new LogRecord(new Date(), pid, NO_ID, appName, Priority.INFO, "", "");
     }
+
 
     /**
      * Copies existing record but changes its time to newTime.

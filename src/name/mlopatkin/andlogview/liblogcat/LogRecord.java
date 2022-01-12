@@ -73,7 +73,7 @@ public class LogRecord implements Comparable<LogRecord> {
 
     public static final int NO_ID = -1;
 
-    private final @Nullable Instant instant;
+    private final @Nullable Date instant;
     private final int pid;
     private final int tid;
     private final Priority priority;
@@ -82,12 +82,12 @@ public class LogRecord implements Comparable<LogRecord> {
     private final @Nullable Buffer buffer;
     private final String appName;
 
-    public LogRecord(@Nullable Instant instant, int pid, int tid, @Nullable String appName, Priority priority, String tag,
+    public LogRecord(@Nullable Date instant, int pid, int tid, @Nullable String appName, Priority priority, String tag,
             String message) {
         this(instant, pid, tid, appName, priority, tag, message, null);
     }
 
-    public LogRecord(@Nullable Instant instant, int pid, int tid, @Nullable String appName, Priority priority, String tag,
+    public LogRecord(@Nullable Date instant, int pid, int tid, @Nullable String appName, Priority priority, String tag,
             String message, @Nullable Buffer buffer) {
         this.instant = instant;
         this.pid = pid;
@@ -99,7 +99,7 @@ public class LogRecord implements Comparable<LogRecord> {
         this.buffer = buffer;
     }
 
-    public @Nullable Instant getTime() {
+    public @Nullable Date getTime() {
         return instant;
     }
 
@@ -161,7 +161,7 @@ public class LogRecord implements Comparable<LogRecord> {
     @Override
     public int compareTo(LogRecord o) {
         return ComparisonChain.start()
-                .compare(getTime(), o.getTime(), NULL_SAFE_INSTANT_COMPARATOR)
+                .compare(getTime(), o.getTime(), NULL_SAFE_DATE_COMPARATOR)
                 .compare(getBuffer(), o.getBuffer(), NULL_SAFE_BUFFER_COMPARATOR)
                 .result();
     }

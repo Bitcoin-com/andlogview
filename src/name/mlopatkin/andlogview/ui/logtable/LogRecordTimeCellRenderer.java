@@ -33,7 +33,7 @@ class LogRecordTimeCellRenderer extends DefaultTableCellRenderer {
             return;
         }
         assert value instanceof Date;
-        String strValue = TimeFormatUtils.convertTimeToString((Instant) value);
+        String strValue = TimeFormatUtils.convertTimeToString((Date) value);
         super.setValue(strValue);
     }
 

@@ -20,8 +20,7 @@ import name.mlopatkin.andlogview.widgets.UiHelper;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.awt.Component;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -33,12 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-import javax.swing.JToggleButton;
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
 
 public class FilterPanel extends FilterPanelUi implements FilterPanelModel.FilterPanelModelListener {
     private static final ImageIcon FILTER_ICON = new ImageIcon(Icons.FILTER.getUrl());
@@ -217,6 +212,17 @@ public class FilterPanel extends FilterPanelUi implements FilterPanelModel.Filte
         @Override
         public String toString() {
             return filter.toString() + " " + super.toString();
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            if (isSelected()) {
+                setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+            } else {
+                setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+            }
         }
     }
 
